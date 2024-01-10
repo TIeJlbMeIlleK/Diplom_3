@@ -8,12 +8,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pageObjects.HomePageLocators;
 
-public class ClickOnIngridientsTypeTest {
+public class CheckTransitionToIngridientsTest {
     WebDriver driver;
 
     @Before
     public void beforeStart() {
         ChromeOptions options = new ChromeOptions();
+//        options.setBinary("C:\\Users\\vevgrafov\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         driver.get("https://stellarburgers.nomoreparties.site/");
@@ -23,9 +24,9 @@ public class ClickOnIngridientsTypeTest {
     public void test() {
         HomePageLocators homePageLocators = new HomePageLocators(driver);
         homePageLocators.waitForOpenPage();
-        homePageLocators.clickOnFillings();
-        homePageLocators.clickOnBuns();
-        homePageLocators.clickOnSauces();
+        homePageLocators.clickAndCheckTransitionToFillings();
+        homePageLocators.clickAndCheckTransitionToBuns();
+        homePageLocators.clickAndCheckTransitionToSauces();
     }
 
 

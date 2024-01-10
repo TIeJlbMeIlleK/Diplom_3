@@ -5,7 +5,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class HomePageLocators {
     private WebDriver driver;
@@ -51,6 +55,34 @@ public class HomePageLocators {
     @Step("Нажали на вкладку Начинки")
     public void clickOnSauces() {
         driver.findElement(sauces).click();
+    }
+
+
+    @Step("Проверка что у элемента вкладки Булки изменился класс")
+    public boolean clickAndCheckTransitionToBuns(){
+        WebElement element = driver.findElement(buns);
+        String initialClass = element.getAttribute("class");
+        clickOnBuns();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(buns, "class", initialClass)));
+    }
+
+    @Step("Проверка что у элемента вкладки Начинки изменился класс")
+    public boolean clickAndCheckTransitionToFillings(){
+        WebElement element = driver.findElement(fillings);
+        String initialClass = element.getAttribute("class");
+        clickOnFillings();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(fillings, "class", initialClass)));
+    }
+
+    @Step("Проверка что у элемента вкладки Соусы изменился класс")
+    public boolean clickAndCheckTransitionToSauces(){
+        WebElement element = driver.findElement(sauces);
+        String initialClass = element.getAttribute("class");
+        clickOnSauces();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        return wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(sauces, "class", initialClass)));
     }
 
     @Step("Проверили переход на домашнюю страницу")

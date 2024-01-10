@@ -20,6 +20,7 @@ public class RegistrationWithBadPasswordTest {
     @Before
     public void beforeStart() {
         ChromeOptions options = new ChromeOptions();
+//        options.setBinary("C:\\Users\\vevgrafov\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         driver.get("https://stellarburgers.nomoreparties.site/");
