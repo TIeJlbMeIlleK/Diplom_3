@@ -1,26 +1,31 @@
 package pageObjects;
 
 import io.qameta.allure.Step;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
 public class HomePageLocators {
-    private WebDriver driver;
+    private final WebDriver driver;
 
-    private By stellarBurger = By.xpath(".//a[@aria-current='page' and @class='active']");
-    private By goToPersonalArea = By.xpath("//p[text()='Личный Кабинет']");
-    private By doLogin = By.xpath(".//button[text()='Войти в аккаунт']");
-    private By buns = By.xpath("//*[@id=\"root\"]/div/main/section[1]/div[1]/div[1]");
-    private By sauces = By.xpath("//*[@id=\"root\"]/div/main/section[1]/div[1]/div[2]");
-    private By fillings = By.xpath("//*[@id=\"root\"]/div/main/section[1]/div[1]/div[3]");
-    private By orderButton = By.xpath(".//button[text()='Оформить заказ']");
+    private final By stellarBurger = By.xpath(".//a[@aria-current='page' and @class='active']");
+    private final By goToPersonalArea = By.xpath("//p[text()='Личный Кабинет']");
+    private final By doLogin = By.xpath(".//button[text()='Войти в аккаунт']");
+    private final By buns = By.xpath(".//span[text()='Булки']");
+    private final By parentElementBuns = By.xpath(".//span[text()='Булки']/..");
+    private final By sauces = By.xpath(".//span[text()='Соусы']");
+    private final By parentElementSauces = By.xpath(".//span[text()='Соусы']/..");
+    private final By fillings = By.xpath(".//span[text()='Начинки']");
+    private final By parentElementFillings = By.xpath(".//span[text()='Начинки']/..");
+    private final By orderButton = By.xpath(".//button[text()='Оформить заказ']");
+
+
+    private String initialBunsClass;
+    private String initialSaucesClass;
+    private String initialFillingsClass;
 
     public HomePageLocators(WebDriver driver) {
         this.driver = driver;
@@ -44,52 +49,45 @@ public class HomePageLocators {
 
     @Step("Нажали на вкладку Булки")
     public void clickOnBuns() {
+        initialBunsClass = driver.findElement(parentElementBuns).getAttribute("class");
         driver.findElement(buns).click();
     }
 
-    @Step("Нажали на вкладку Соусы")
-    public void clickOnFillings() {
-        driver.findElement(fillings).click();
+    @Step("Проверили что у элемента вкладки Булки изменился класс")
+    public void checkTransitionToBuns() {
+        WebElement updatedElement = driver.findElement(parentElementBuns);
+        Assert.assertNotEquals("Класс элемента не изменился", initialBunsClass, updatedElement.getAttribute("class"));
     }
 
     @Step("Нажали на вкладку Начинки")
+    public void clickOnFillings() {
+        initialFillingsClass = driver.findElement(parentElementFillings).getAttribute("class");
+        driver.findElement(fillings).click();
+    }
+
+    @Step("Проверили что у элемента вкладки Начинки изменился класс")
+    public void checkTransitionToFillings() {
+        WebElement updatedElement = driver.findElement(parentElementFillings);
+        Assert.assertNotEquals("Класс элемента не изменился", initialFillingsClass, updatedElement.getAttribute("class"));
+    }
+
+    @Step("Нажали на вкладку Соусы")
     public void clickOnSauces() {
+        initialSaucesClass = driver.findElement(parentElementFillings).getAttribute("class");
         driver.findElement(sauces).click();
     }
 
-
-    @Step("Проверка что у элемента вкладки Булки изменился класс")
-    public boolean clickAndCheckTransitionToBuns(){
-        WebElement element = driver.findElement(buns);
-        String initialClass = element.getAttribute("class");
-        clickOnBuns();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        return wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(buns, "class", initialClass)));
-    }
-
-    @Step("Проверка что у элемента вкладки Начинки изменился класс")
-    public boolean clickAndCheckTransitionToFillings(){
-        WebElement element = driver.findElement(fillings);
-        String initialClass = element.getAttribute("class");
-        clickOnFillings();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        return wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(fillings, "class", initialClass)));
-    }
-
-    @Step("Проверка что у элемента вкладки Соусы изменился класс")
-    public boolean clickAndCheckTransitionToSauces(){
-        WebElement element = driver.findElement(sauces);
-        String initialClass = element.getAttribute("class");
-        clickOnSauces();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        return wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(sauces, "class", initialClass)));
+    @Step("Проверили что у элемента вкладки Соусы изменился класс")
+    public void checkTransitionToSauces() {
+        WebElement updatedElement = driver.findElement(parentElementSauces);
+        Assert.assertNotEquals("Класс элемента не изменился", initialSaucesClass, updatedElement.getAttribute("class"));
     }
 
     @Step("Проверили переход на домашнюю страницу")
-    public boolean checkTransitionToHomeAfterAuthorizationPage() {
+    public void checkTransitionToHomeAfterAuthorizationPage() {
         WebDriverWait explicitWait = new WebDriverWait(driver, 3);
         WebElement element = explicitWait.until(ExpectedConditions.presenceOfElementLocated(orderButton));
-        return element.isDisplayed();
+        Assert.assertTrue("Элемент не отображается на странице", element.isDisplayed());
     }
 }
 

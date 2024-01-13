@@ -16,6 +16,8 @@ public class LoginPageLocators {
     private By doLogin = By.xpath(".//button[text()='Войти']");
     private By registerButton = By.xpath("//a[@href='/register']");
     private By forgotPasswordButton = By.xpath("//a[@href='/forgot-password']");
+    private String email = "VEvgrafov-IITDGroup@yandex.ru";
+    private String pass = "VEvgrafov";
 
     public LoginPageLocators(WebDriver driver) {
         this.driver = driver;
@@ -42,9 +44,9 @@ public class LoginPageLocators {
     }
 
     @Step("Авторизовались в системе")
-    public void authorization(String email, String password){
+    public void authorization(){
         setTextOnFieldEmail(email);
-        setTextOnFieldPassword(password);
+        setTextOnFieldPassword(pass);
         clickOnLoginButton();
     }
 

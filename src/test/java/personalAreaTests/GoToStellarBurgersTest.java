@@ -24,7 +24,11 @@ public class GoToStellarBurgersTest {
         clientApi.createClient();
 
         ChromeOptions options = new ChromeOptions();
-//        options.setBinary("C:\\Users\\vevgrafov\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
+        /**
+         * При необходимости проверить в Yandex браузере, нужно раскомментировать строчку с пометкой TODO и указать в нем ссылку на браузер
+         * Так же необходимо убелиться что версия браузера Яндекса и драйвера совпадают!
+         */
+        //TODO options.setBinary("C:\\Users\\vevgrafov\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         driver.get("https://stellarburgers.nomoreparties.site/");
@@ -35,11 +39,11 @@ public class GoToStellarBurgersTest {
         homePageLocators.clickOnLoginButton();
 
         loginPageLocators.waitForOpenPage();
-        loginPageLocators.authorization("VEvgrafov-IITDGroup@yandex.ru", "VEvgrafov");
+        loginPageLocators.authorization();
     }
 
     @Test
-    public void test() {
+    public void goToStellarBurgersTest() {
         HomePageLocators homePageLocators = new HomePageLocators(driver);
         homePageLocators.clickOnGoPersonalArea();
 
